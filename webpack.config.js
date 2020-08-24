@@ -4,7 +4,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 module.exports = {
   entry: path.resolve(__dirname, "src/navbar.tsx"),
   output: {
-    filename: "navbar.js",
+    filename: "[hash]/navbar.js",
     libraryTarget: "system",
     path: path.resolve(__dirname, "dist")
   },
@@ -40,7 +40,7 @@ module.exports = {
     },
     disableHostCheck: true
   },
-  externals: ["react", "react-dom", /^@openmrs\/.*/],
+  externals: ["react", "react-dom",/^@meh-dev\/.*/, /^@openmrs\/.*/],
   plugins: [new CleanWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]

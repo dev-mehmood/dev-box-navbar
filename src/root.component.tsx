@@ -4,7 +4,7 @@ import Topnav from "./topnav/topnav.component";
 
 export default function Root(props: RootProps) {
   return (
-    <BrowserRouter basename="/openmrs/spa">
+    <BrowserRouter basename="/">
       <Topnav />
     </BrowserRouter>
   );
