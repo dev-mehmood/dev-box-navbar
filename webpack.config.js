@@ -1,10 +1,11 @@
 const path = require("path");
 const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
+// const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: path.resolve(__dirname, "src/navbar.tsx"),
   output: {
-    filename: "[hash]/navbar.js",
+    filename: "[hash]-navbar.js",
     libraryTarget: "system",
     path: path.resolve(__dirname, "dist")
   },
@@ -40,7 +41,12 @@ module.exports = {
     },
     disableHostCheck: true
   },
-  externals: ["react", "react-dom",/^@meh-dev\/.*/, /^@openmrs\/.*/],
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM'
+},
+
+  // externals: ["react", "react-dom",/^@dev-box\/.*/, /^@openmrs\/.*/],
   plugins: [new CleanWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]

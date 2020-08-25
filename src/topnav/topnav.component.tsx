@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./topnav.css";
-import LoggedInUserDisplay from "./logged-in-user-display.component";
+// import LoggedInUserDisplay from "./logged-in-user-display.component";
 
 export default function Topnav(props: TopnavProps) {
   return (
@@ -23,7 +23,7 @@ export default function Topnav(props: TopnavProps) {
           </NavLink>
         </li>
         <li>
-          <LoggedInUserDisplay />
+          {/* <LoggedInUserDisplay /> */}
         </li>
         <li>
           <a href="/openmrs/appui/header/logout.action?successUrl=openmrs">
