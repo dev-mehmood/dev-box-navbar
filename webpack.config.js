@@ -41,12 +41,8 @@ module.exports = {
     },
     disableHostCheck: true
   },
-  externals: {
-    'react': 'React',
-    'react-dom': 'ReactDOM'
-},
-
-  // externals: ["react", "react-dom",/^@dev-box\/.*/, /^@openmrs\/.*/],
+ 
+  externals: ["react", "react-dom",/^@dev-box\/.*/, /^@openmrs\/.*/],
   plugins: [new CleanWebpackPlugin()],
   resolve: {
     extensions: [".tsx", ".ts", ".jsx", ".js"]
