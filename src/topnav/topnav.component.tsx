@@ -11,17 +11,17 @@ export default function Topnav(props: TopnavProps) {
         target="_blank"
         className={styles.logoContainer}
       >
-        <img
+        {/* <img
           src="https://implementation-assets.sfo2.digitaloceanspaces.com/openmrs_logo_white_large.png"
           alt="OpenMRS Logo"
-        />
+        /> */}
       </a>
       <ul>
-        <li>
+        {/* <li>
           <NavLink to="/patient-search" activeClassName={styles.activeLink}>
             <span>Patient search</span>
           </NavLink>
-        </li>
+        </li> */}
         <li>
           {/* <LoggedInUserDisplay /> */}
         </li>
