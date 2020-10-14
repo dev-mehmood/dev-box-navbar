@@ -91,8 +91,8 @@ module.exports.updateImportMapStage = async function () {
         url: `${process.env.DEV_BOX_SPA_URI_STAGE}/import-maps/import-map.json`,
         data: {
             "imports": {
-                "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/navbar.js`,
-                "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/navbar.js/`
+                "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+                "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/${process.env.SYSTEM_JS_FILE_NAME}.js/`
             },
             "mode": 'stage'
         }
@@ -110,8 +110,8 @@ module.exports.updateImportMapProd = async function (tag) {
             url: `${process.env.DEV_BOX_SPA_URI_PRODUCTION}/import-maps/import-map.json`,
             data: {
                 "imports": {
-                    "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/navbar.js`,
-                    "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/navbar.js/`
+                    "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+                    "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
                 },
                 "mode": 'prod'
             }
