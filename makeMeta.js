@@ -75,8 +75,6 @@ async function exec_it() {
     console.log(message)
     await simpleGitPromise.raw(['commit', '-m', message])
     await simpleGitPromise.push("origin", "master");
-
-    // ~
     
   } catch (e) {
     throw e;

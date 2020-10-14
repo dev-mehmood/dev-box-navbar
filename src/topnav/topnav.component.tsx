@@ -22,9 +22,7 @@ export default function Topnav(props: TopnavProps) {
             <span>Patient search</span>
           </NavLink>
         </li> */}
-        <li>
-          {/* <LoggedInUserDisplay /> */}
-        </li>
+        <li>{/* <LoggedInUserDisplay /> */}</li>
         <li>
           <a href="/openmrs/appui/header/logout.action?successUrl=openmrs">
             <span>Logout</span>
