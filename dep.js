@@ -97,8 +97,8 @@ module.exports.updateImportMapStage = async function (tag) {
             //     "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
             // },
             "imports": {
-                "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
-                "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
+                [`${process.env.SYSTEMJS_PATH}`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+                [`${process.env.SYSTEMJS_PATH}/`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
             },
             "mode": 'stage'
         }
@@ -116,8 +116,8 @@ module.exports.updateImportMapProd = async function (tag) {
             url: `${process.env.DEV_BOX_SPA_URI_PRODUCTION}/import-maps/import-map.json`,
             data: {
                 "imports": {
-                    "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
-                    "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
+                    [`${process.env.SYSTEMJS_PATH}`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+                    [`${process.env.SYSTEMJS_PATH}/`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
                 },
                 "mode": 'prod'
             }
@@ -167,9 +167,10 @@ module.exports.tagStage = async function () {
     // await this.pushToGit();
     let lastTag = ''
     try {
-        lastTag = await simpleGitPromise.raw(['describe', '--match[stage-v]*','--abbrev=0'])
+        lastTag = await simpleGitPromise.raw(['describe', '--match','[stage-v]*','--abbrev=0'])
     } catch (e) {
-        console.log(e)
+       
+        console.log("No tag found please enter new tag name")
     }
 
     let tagName = 'stage-v1.0.0', tagMessage = 'First tag deployment v1.0.0'
