@@ -5,7 +5,7 @@ const CleanWebpackPlugin = require("clean-webpack-plugin").CleanWebpackPlugin;
 module.exports = {
   entry: path.resolve(__dirname, "src/navbar.tsx"),
   output: {
-    filename: "[hash]-navbar.js",
+    filename: "navbar.js",
     libraryTarget: "system",
     path: path.resolve(__dirname, "dist")
   },
