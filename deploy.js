@@ -76,7 +76,14 @@ module.exports.deploy = async function () {
 }
 
 module.exports.updateImportMapStage = async function () {
-
+    try {
+        await axios.get(
+          `https://purge.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`
+        );
+        console.log("previous path purged");
+      } catch (e) {
+        console.log(e);
+      }
     const token = await this.getAuthToken(process.env.DEV_BOX_SPA_URI_STAGE);
     axios.defaults.headers.common['x-access-token'] = token;
     const x = await axios({
