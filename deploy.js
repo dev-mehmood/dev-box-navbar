@@ -58,12 +58,14 @@ module.exports.deploy = async function () {
         console.log('Code Pushed to git \n');
         if (process.env.MODE === 'stage') {
            
-            await this.updateImportMapStage()
+            await this.updateImportMapStage();
+            console.log('done')
         }
         
         if (process.env.MODE === 'production') {
             const tag = await this.tagProduction();
-            await this.updateImportMapProd(tag)
+            await this.updateImportMapProd(tag);
+            console.log('done')
         }
 
     } catch (e) {
@@ -82,8 +84,8 @@ module.exports.updateImportMapStage = async function () {
         url: `${process.env.DEV_BOX_SPA_URI_STAGE}/import-maps/import-map.json`,
         data: {
             "imports": {
-                "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/dev-box-base/dist/navbar.js`,
-                "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/dev-box-base/dist/navbar.js/`
+                "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/navbar.js`,
+                "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/navbar.js/`
             },
             "mode": 'stage'
         }
@@ -101,8 +103,8 @@ module.exports.updateImportMapProd = async function (tag) {
             url: `${process.env.DEV_BOX_SPA_URI_PRODUCTION}/import-maps/import-map.json`,
             data: {
                 "imports": {
-                    "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/dev-box-base@${tag}/dist/navbar.js`,
-                    "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/dev-box-base@${tag}/dist/navbar.js/`
+                    "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/navbar.js`,
+                    "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/navbar.js/`
                 },
                 "mode": 'prod'
             }
