@@ -58,7 +58,9 @@ module.exports.deploy = async function () {
         console.log('Code Pushed to git \n');
         if (process.env.MODE === 'stage') {
 
-            await this.updateImportMapStage();
+            
+            const tag = await this.tagStage();
+            await this.updateImportMapStage(tag);
             console.log('done')
         }
 
@@ -75,10 +77,10 @@ module.exports.deploy = async function () {
 
 }
 
-module.exports.updateImportMapStage = async function () {
+module.exports.updateImportMapStage = async function (tag) {
     try {
         await axios.get(
-            `https://purge.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`
+            `https://purge.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`
         );
         console.log("previous path purged");
     } catch (e) {
@@ -90,9 +92,13 @@ module.exports.updateImportMapStage = async function () {
         method: 'patch',
         url: `${process.env.DEV_BOX_SPA_URI_STAGE}/import-maps/import-map.json`,
         data: {
+            // "imports": {
+            //     "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+            //     "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
+            // },
             "imports": {
-                "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
-                "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
+                [`${process.env.SYSTEMJS_PATH}`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+                [`${process.env.SYSTEMJS_PATH}/`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
             },
             "mode": 'stage'
         }
@@ -110,8 +116,8 @@ module.exports.updateImportMapProd = async function (tag) {
             url: `${process.env.DEV_BOX_SPA_URI_PRODUCTION}/import-maps/import-map.json`,
             data: {
                 "imports": {
-                    "@dev-box/navbar": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
-                    "@dev-box/navbar/": `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
+                    [`${process.env.SYSTEMJS_PATH}`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js`,
+                    [`${process.env.SYSTEMJS_PATH}/`]: `https://cdn.jsdelivr.net/gh/dev-mehmood/${process.env.GIT_REPO}@${tag}/dist/${process.env.SYSTEM_JS_FILE_NAME}.js/`
                 },
                 "mode": 'prod'
             }
@@ -155,6 +161,27 @@ module.exports.pushToGit = async function () {
     await simpleGitPromise.raw(['commit', '-m', message]);
     await simpleGitPromise.push("origin", "master");
     return true;
+}
+
+module.exports.tagStage = async function () {
+    // await this.pushToGit();
+    let lastTag = ''
+    try {
+        lastTag = await simpleGitPromise.raw(['describe', '--match','[stage-v]*','--abbrev=0'])
+    } catch (e) {
+       
+        console.log("No tag found please enter new tag name")
+    }
+
+    let tagName = 'stage-v1.0.0', tagMessage = 'First tag deployment v1.0.0'
+    if (lastTag) {
+        console.log('Last tag on this branch is: ', lastTag)
+    }
+    tagName = prompt('Enter Stage Tag Name:');
+    tagMessage = prompt('Enter Tag Message:')
+    await simpleGitPromise.addAnnotatedTag(tagName, tagMessage);
+    await simpleGitPromise.pushTags('origin', tagName)
+    return tagName
 }
 
 module.exports.tagProduction = async function () {
